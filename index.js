@@ -41,3 +41,7 @@ app.use(router)
 app.listen(port, () => {
     console.log(`App listen on port ${port}`);
 })
+
+app.get("/", (req, res)=>{
+    res.status(200).json({msg : "Wellcome to Coffeeland API"})
+})
