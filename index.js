@@ -8,7 +8,7 @@ const router = require('./src/routes/index')
 const port = process.env.PORT
 const client = require('./src/config/redis')
 const cors = require('cors')
-// const {User, Product, Category, Order, OrderItem} = require('./src/models/index')
+const {User, Product, Category, Order, OrderItem} = require('./src/models/index')
 const cloudinaryConfig = require('./src/config/cloudinary')
 
 db.authenticate().then(() => {
@@ -16,11 +16,11 @@ db.authenticate().then(() => {
 }).catch((err) => {
     console.log({ err });
 })
-// User.sync()
-// Product.sync()
-// Category.sync()
-// Order.sync()
-// OrderItem.sync()
+User.sync()
+Product.sync()
+Category.sync()
+Order.sync()
+OrderItem.sync()
 client.connect()
     .then(() => {
         console.log(`Redis connected`)
