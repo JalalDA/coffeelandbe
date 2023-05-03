@@ -31,12 +31,12 @@ client.connect()
         console.log({ err });
     })
 app.use(cors(
-    // {
-    //     origin: ['*', 'http://localhost:3000', 'https://coffeelands-app.netlify.app'],
-    //     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-    //     credentials: true,
-    //     allowedHeaders: ['Content-Type', 'Authorization'],
-    // }
+    {
+        origin: ['*', 'http://localhost:3000', 'https://coffeelands-app.netlify.app'],
+        methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+        credentials: true,
+        optionsSuccessStatus : 200
+    }
 ))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
