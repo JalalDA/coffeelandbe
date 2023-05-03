@@ -193,6 +193,10 @@ const User = db.define('User', {
   // Define associations
   User.hasMany(Order, {foreignKey : "user_id"});
   Order.belongsTo(User, {foreignKey : "user_id"});
+  
+  User.hasMany(Cart, {foreignKey : "user_id"})
+  Cart.belongsTo(User, {foreignKey : "user_id"})
+
   OrderItem.belongsTo(Product, {foreignKey : "product_id"})
 
   Category.hasMany(Product, {foreignKey : "category_id"});

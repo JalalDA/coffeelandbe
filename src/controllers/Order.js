@@ -1,3 +1,4 @@
+const { createPayment } = require("../config/midtrans")
 const { Order, OrderItem, User } = require("../models/index")
 const { v4: uuidV4 } = require('uuid')
 
@@ -81,8 +82,52 @@ const getAllOrder = async (req, res) => {
     }
 }
 
+const createTransaction = async (req, res)=>{
+    try {
+        const {
+            items,
+            total,
+            paymentMethod
+        } = req.body
+        const {user_id} = req.payload
+        const order = new Order({
+            order_id: uuidV4(),
+            user_id,
+            total,
+            paymentMethod
+        })
+        await order.save()
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            await OrderItem.create({
+                order_item_id: uuidV4(),
+                quantity: item?.quantity,
+                price: item?.price,
+                product_id: item?.product_id,
+                order_id: order?.order_id
+            })
+        }
+        const updatedOrder = await Order.findByPk(order?.order_id, {
+            include: {
+                model: OrderItem
+            }
+        })
+        // const {amount} = req.body
+        const {url} = await createPayment(updatedOrder?.order_id, total)
+        res.status(200).json({
+            msg : "Success",
+            url,
+            updatedOrder
+        })
+    } catch (error) {
+        console.log({error});
+        res.status(200).json({error})
+    }
+}
+
 module.exports = {
     addOrder,
     getAllOrder,
-    getSingleOrder
+    getSingleOrder,
+    createTransaction
 }

@@ -285,6 +285,8 @@ const loginWithGoogle = async (req, res) => {
     try {
         const { email, name, photo } = req?.payload
         const exist = await User.findOne({ where: { email } })
+        const salt = await bcrypt.genSalt()
+        const hasedPassword = await bcrypt.hash(`${name}123`, salt)
         let token;
         if (exist) {
             token = jwt.sign({ email, user_id: exist?.user_id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' })
@@ -293,9 +295,9 @@ const loginWithGoogle = async (req, res) => {
                 user_id : uuidV4(),
                 username : name,
                 email,
-                password : `${name}123`,
+                password : hasedPassword,
                 photo,
-                isActive : false
+                isActive : true
             })
             await user.save()
             const createdUser = await User.findOne({where : {email}})
