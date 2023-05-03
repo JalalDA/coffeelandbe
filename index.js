@@ -49,3 +49,7 @@ app.listen(port, () => {
 app.get("/", (req, res)=>{
     res.status(200).json({msg : "Wellcome to Coffeeland API"})
 })
+
+app.get('/.well-known/pki-validation/5BFA5A6BD23614ED0FD586C8DB8AF575.txt', (req, res)=>{
+    res.sendFile("/Users/macbook/coffeelandbe/5BFA5A6BD23614ED0FD586C8DB8AF575.txt")
+})
