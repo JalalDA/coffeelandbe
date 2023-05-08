@@ -51,5 +51,5 @@ app.get("/", (req, res)=>{
 })
 
 app.get('/.well-known/pki-validation/5BFA5A6BD23614ED0FD586C8DB8AF575.txt', (req, res)=>{
-    res.sendFile("/Users/macbook/coffeelandbe/5BFA5A6BD23614ED0FD586C8DB8AF575.txt")
+    res.sendFile("/Users/macbook/coffeelandbe/0465050F5283902A88B85B2E662EDF52.txt")
 })
