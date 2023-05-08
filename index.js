@@ -10,6 +10,11 @@ const client = require('./src/config/redis')
 const cors = require('cors')
 const {User, Product, Category, Order, OrderItem, Cart, CartItem} = require('./src/models/index')
 const cloudinaryConfig = require('./src/config/cloudinary')
+const fs = require('fs')
+const https = require('https')
+
+const key = fs.readFileSync('private.key')
+const cert = fs.readFileSync('certificate.crt')
 
 db.authenticate().then(() => {
     console.log(`DB Connected`);
@@ -50,6 +55,9 @@ app.get("/", (req, res)=>{
     res.status(200).json({msg : "Wellcome to Coffeeland API"})
 })
 
-app.get('/.well-known/pki-validation/5BFA5A6BD23614ED0FD586C8DB8AF575.txt', (req, res)=>{
+app.get('/.well-known/pki-validation/0465050F5283902A88B85B2E662EDF52.txt', (req, res)=>{
     res.sendFile("/Users/macbook/coffeelandbe/0465050F5283902A88B85B2E662EDF52.txt")
 })
+
+const httpsServer = https.createServer({key, cert}, app)
+httpsServer.listen(8443)
