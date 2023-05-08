@@ -16,6 +16,11 @@ const https = require('https')
 const key = fs.readFileSync('private.key')
 const cert = fs.readFileSync('certificate.crt')
 
+const cred = {
+    key,
+    cert
+}
+
 db.authenticate().then(() => {
     console.log(`DB Connected`);
 }).catch((err) => {
@@ -55,9 +60,5 @@ app.get("/", (req, res)=>{
     res.status(200).json({msg : "Wellcome to Coffeeland API"})
 })
 
-app.get('/.well-known/pki-validation/0465050F5283902A88B85B2E662EDF52.txt', (req, res)=>{
-    res.sendFile("/Users/macbook/coffeelandbe/0465050F5283902A88B85B2E662EDF52.txt")
-})
-
-const httpsServer = https.createServer({key, cert}, app)
+const httpsServer = https.createServer(cred, app)
 httpsServer.listen(8443)
